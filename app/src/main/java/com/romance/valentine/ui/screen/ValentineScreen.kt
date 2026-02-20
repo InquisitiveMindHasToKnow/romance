@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.romance.valentine.data.ValentineData
-import com.romance.valentine.ui.components.CoupleImageCarousel
 import com.romance.valentine.ui.components.FunFactsSection
 import com.romance.valentine.ui.components.LoveLetterSection
 import com.romance.valentine.ui.components.LoveNoteCard
@@ -90,8 +89,11 @@ fun ValentineScreen(
         }
 
         item {
-            CoupleImageCarousel(
-                imageResIds = ValentineData.coupleImages
+            SectionHeader(title = "Captured Memories")
+        }
+        item {
+            PhotoComplimentsSection(
+                compliments = ValentineData.photoCompliments
             )
         }
 
@@ -124,15 +126,6 @@ fun ValentineScreen(
                     selectedSurpriseId = id
                     prefs.edit().putInt(KEY_SURPRISE_CHOICE, id).apply()
                 }
-            )
-        }
-
-        item {
-            SectionHeader(title = "You Are Beautiful")
-        }
-        item {
-            PhotoComplimentsSection(
-                compliments = ValentineData.photoCompliments
             )
         }
 
@@ -172,6 +165,12 @@ fun ValentineScreen(
             ) {
                 Text(
                     text = "Made with love, just for you",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Shakespeare Raymond \u2665",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                     textAlign = TextAlign.Center

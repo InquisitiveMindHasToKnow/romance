@@ -3,6 +3,8 @@ package com.romance.valentine.ui.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -50,7 +52,7 @@ private fun FunFactCard(
     var revealed by remember { mutableStateOf(false) }
 
     Card(
-        onClick = { revealed = true },
+        onClick = { revealed = !revealed },
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(
@@ -74,7 +76,8 @@ private fun FunFactCard(
 
             AnimatedVisibility(
                 visible = revealed,
-                enter = fadeIn() + expandVertically()
+                enter = fadeIn() + expandVertically(),
+                exit = fadeOut() + shrinkVertically()
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Spacer(modifier = Modifier.height(12.dp))
@@ -88,14 +91,12 @@ private fun FunFactCard(
                 }
             }
 
-            if (!revealed) {
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Tap to reveal",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-                )
-            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = if (revealed) "Tap to hide" else "Tap to reveal",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+            )
         }
     }
 }
