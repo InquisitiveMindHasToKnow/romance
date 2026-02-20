@@ -24,10 +24,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.romance.valentine.data.SampleData
+import com.romance.valentine.data.ValentineData
 import com.romance.valentine.ui.components.CoupleImageCarousel
+import com.romance.valentine.ui.components.FunFactsSection
+import com.romance.valentine.ui.components.LoveLetterSection
 import com.romance.valentine.ui.components.LoveNoteCard
 import com.romance.valentine.ui.components.MemoryTimeline
+import com.romance.valentine.ui.components.PhotoComplimentsSection
 import com.romance.valentine.ui.components.ReasonsSection
 import com.romance.valentine.ui.components.SectionHeader
 import com.romance.valentine.ui.components.SurpriseSection
@@ -59,8 +62,8 @@ fun ValentineScreen(
         contentPadding = PaddingValues(
             start = 20.dp,
             end = 20.dp,
-            top = 48.dp,
-            bottom = 32.dp
+            top = 24.dp,
+            bottom = 24.dp
         ),
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -88,7 +91,7 @@ fun ValentineScreen(
 
         item {
             CoupleImageCarousel(
-                imageResIds = SampleData.coupleImages
+                imageResIds = ValentineData.coupleImages
             )
         }
 
@@ -97,7 +100,16 @@ fun ValentineScreen(
         }
         item {
             LoveNoteCard(
-                loveNotes = SampleData.loveNotes
+                loveNotes = ValentineData.loveNotes
+            )
+        }
+
+        item {
+            SectionHeader(title = "A Letter For You")
+        }
+        item {
+            LoveLetterSection(
+                letter = ValentineData.loveLetter
             )
         }
 
@@ -106,7 +118,7 @@ fun ValentineScreen(
         }
         item {
             SurpriseSection(
-                choices = SampleData.surprises,
+                choices = ValentineData.surprises,
                 selectedId = selectedSurpriseId,
                 onChoiceSelected = { id ->
                     selectedSurpriseId = id
@@ -116,11 +128,20 @@ fun ValentineScreen(
         }
 
         item {
+            SectionHeader(title = "You Are Beautiful")
+        }
+        item {
+            PhotoComplimentsSection(
+                compliments = ValentineData.photoCompliments
+            )
+        }
+
+        item {
             SectionHeader(title = "Reasons I Love You")
         }
         item {
             ReasonsSection(
-                reasons = SampleData.reasons
+                reasons = ValentineData.reasons
             )
         }
 
@@ -129,7 +150,16 @@ fun ValentineScreen(
         }
         item {
             MemoryTimeline(
-                memories = SampleData.memories
+                memories = ValentineData.memories
+            )
+        }
+
+        item {
+            SectionHeader(title = "Did You Know?")
+        }
+        item {
+            FunFactsSection(
+                funFacts = ValentineData.funFacts
             )
         }
 
