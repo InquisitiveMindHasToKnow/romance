@@ -1,10 +1,8 @@
 package com.romance.valentine.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,12 +17,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,8 +37,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.romance.valentine.data.SurpriseChoice
+import com.romance.valentine.data.sendSurpriseNotification
 import com.romance.valentine.ui.theme.RoseRed
 import com.romance.valentine.ui.theme.SoftPink
+import kotlinx.coroutines.launch
 
 @Composable
 fun SurpriseSection(
@@ -42,6 +49,42 @@ fun SurpriseSection(
     onChoiceSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scope = rememberCoroutineScope()
+    val ordinals = listOf("One", "Two", "Three", "Four", "Five")
+    var pendingChoice by remember { mutableStateOf<SurpriseChoice?>(null) }
+
+    // Confirmation dialog
+    pendingChoice?.let { choice ->
+        val index = choices.indexOf(choice)
+        val label = "Surprise ${ordinals.getOrElse(index) { "${index + 1}" }}"
+        AlertDialog(
+            onDismissRequest = { pendingChoice = null },
+            title = {
+                Text(text = "Are you sure?")
+            },
+            text = {
+                Text(
+                    text = "Once you choose $label, the other surprises will be locked forever. This is your one pick!",
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    onChoiceSelected(choice.id)
+                    scope.launch { sendSurpriseNotification(label) }
+                    pendingChoice = null
+                }) {
+                    Text("Yes, this one!")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingChoice = null }) {
+                    Text("Let me think...")
+                }
+            }
+        )
+    }
+
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -55,8 +98,6 @@ fun SurpriseSection(
                 modifier = Modifier.padding(bottom = 12.dp)
             )
         }
-
-        val ordinals = listOf("One", "Two", "Three", "Four", "Five")
 
         AnimatedVisibility(
             visible = selectedId == null,
@@ -76,16 +117,16 @@ fun SurpriseSection(
                 val label = "Surprise ${ordinals.getOrElse(index) { "${index + 1}" }}"
 
                 SurpriseCard(
-                    choice = choice,
                     label = label,
                     isSelected = isSelected,
                     isLocked = isLocked,
                     onClick = {
                         if (selectedId == null) {
-                            onChoiceSelected(choice.id)
+                            pendingChoice = choice
                         }
                     }
                 )
+
             }
         }
 
@@ -97,21 +138,11 @@ fun SurpriseSection(
             SurpriseDecorations(topRow = false)
         }
 
-        if (selectedId != null) {
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "You chose your surprise!",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.primary,
-                textAlign = TextAlign.Center
-            )
-        }
     }
 }
 
 @Composable
 private fun SurpriseDecorations(topRow: Boolean) {
-    // Two rows of emojis — top row and bottom row use different orderings for variety
     val topEmojis = listOf("🎁", "✨", "🎀", "🎊", "🎁", "✨")
     val bottomEmojis = listOf("✨", "🎉", "🎁", "🎀", "🎊", "🎁")
     val emojis = if (topRow) topEmojis else bottomEmojis
@@ -138,7 +169,6 @@ private fun SurpriseDecorations(topRow: Boolean) {
 
 @Composable
 private fun SurpriseCard(
-    choice: SurpriseChoice,
     label: String,
     isSelected: Boolean,
     isLocked: Boolean,
@@ -175,31 +205,14 @@ private fun SurpriseCard(
                     else
                         MaterialTheme.colorScheme.onSurface
                 )
-                AnimatedVisibility(
-                    visible = isSelected,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Text(
-                            text = choice.emoji,
-                            fontSize = 36.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = choice.title,
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text(
-                            text = choice.description,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f)
-                        )
-                    }
+                if (isSelected) {
+                    Spacer(modifier = Modifier.height(6.dp))
+                    Text(
+                        text = "You selected $label. Your choice has been noted \u2665",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.8f),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
