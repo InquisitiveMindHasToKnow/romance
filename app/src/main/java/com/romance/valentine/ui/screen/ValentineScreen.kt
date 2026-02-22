@@ -28,8 +28,8 @@ import com.romance.valentine.data.ValentineData
 import com.romance.valentine.ui.components.FunFactsSection
 import com.romance.valentine.ui.components.LoveLetterSection
 import com.romance.valentine.ui.components.LoveNoteCard
-import com.romance.valentine.ui.components.MemoryTimeline
 import com.romance.valentine.ui.components.PhotoComplimentsSection
+import com.romance.valentine.ui.components.PromisesSection
 import com.romance.valentine.ui.components.ReasonsSection
 import com.romance.valentine.ui.components.SectionHeader
 import com.romance.valentine.ui.components.SurpriseSection
@@ -139,11 +139,11 @@ fun ValentineScreen(
         }
 
         item {
-            SectionHeader(title = "Our Story")
+            SectionHeader(title = "Promises to You")
         }
         item {
-            MemoryTimeline(
-                memories = ValentineData.memories
+            PromisesSection(
+                promises = ValentineData.promises
             )
         }
 
