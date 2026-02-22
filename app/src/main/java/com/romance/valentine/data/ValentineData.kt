@@ -20,21 +20,27 @@ object ValentineData {
     )
 
     val reasons = listOf(
-        Reason(1, "The way you laugh at my terrible jokes"),
-        Reason(2, "How you always know exactly what to say"),
-        Reason(3, "Your smile that lights up every room"),
-        Reason(4, "The way you scrunch your nose when you think"),
-        Reason(5, "How you make even ordinary moments feel special"),
-        Reason(6, "Your kindness to everyone you meet"),
-        Reason(7, "The way you hold my hand"),
-        Reason(8, "How you always believe in me"),
-        Reason(9, "Your passion for the things you love"),
-        Reason(10, "The way you say my name ;)"),
-        Reason(11, "How you make me want to be a better person"),
+        Reason(1, "The way you laugh at my amazing jokes! \"Qua Qua Qua\" and all."),
+        Reason(2, "How you always know exactly what to say."),
+        Reason(3, "How you turn small moments into memories without realizing it."),
+        Reason(4, "The way you get excited about things... fully, unashamedly. That dance for the Koren Food in Washington said it all!"),
+        Reason(5, "How you make even ordinary moments feel special."),
+        Reason(6, "The way you notice when something's off before I say a word."),
+        Reason(7, "The way your voice sounds when you're talking about something you're passionate about."),
+        Reason(8, "The way you make even bad days end on a good note."),
+        Reason(9, "The way you light up when you're with the people you love."),
+        Reason(10, "The way you say my name. ;)"),
+        Reason(11, "How you're my favorite person to do absolutely nothing with."),
         Reason(12, "Your beautiful heart"),
-        Reason(13, "The little notes you leave for me"),
-        Reason(14, "How safe I feel when I am with you"),
-    )
+        Reason(13, "The way you're somehow even more attractive when you're not trying."),
+        Reason(14, "The way you look in my clothes."),
+        Reason(15, "The way your laugh turns into something else entirely when it's late."),
+        Reason(16, "The way you smell. I don't have better words for it, it just does something to me."),
+        Reason(17, "The way you make late nights with you feel better than anything planned ever could"),
+        Reason(18, "How you look when you think I'm not watching."),
+
+
+        )
 
     val surprises = listOf(
         SurpriseChoice(
