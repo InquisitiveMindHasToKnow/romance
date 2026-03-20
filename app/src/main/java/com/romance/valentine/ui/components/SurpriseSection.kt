@@ -91,7 +91,7 @@ fun SurpriseSection(
     ) {
         if (selectedId == null) {
             Text(
-                text = "Pick one surprise — choose wisely, you only get one!",
+                text = "Pick one surprise. Choose wisely, you only get one!",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center,
