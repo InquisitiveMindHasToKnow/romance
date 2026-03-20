@@ -140,12 +140,6 @@ private fun FunFactCard(
                 }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = if (revealed) "Tap to hide" else "Tap to reveal",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-            )
         }
     }
 }
